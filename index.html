@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todos V0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <form action='#'>
+  <input type="text" id="input-todo" placeholder="What needs to be done?" autofocus>
+  </form>
+  <ul id="todos"></ul>
+  <script>
+    var todos = [{
+      id: 1,
+      content: 'HTML',
+      completed: false
+    }, {
+      id: 2,
+      content: 'CSS',
+      completed: true
+    }, {
+      id: 3,
+      content: 'Javascript',
+      completed: false
+    }];
+    var inputTodo = document.getElementById('input-todo');
+    var todoList = document.getElementById('todos');
+
+    // console.log(inputTodo, todoList);
+
+    // todoList를 빈 문자열로 재할당해 비워주고 forEach함수로 todos를 순회하면서 innerHTML로 <li> 를 추가해준다. 만약 처음에 빈 문자열로 재할당해주지 않으면 이미 존재하는 3개 + 새롭게 추가된 것 총 7개가 화면에 뿌려진다. 
+    function idName(todos) {
+      todoList.innerHTML = '';
+      todos.forEach(function(todo) {
+        todoList.innerHTML += '<li id="' + todo.id + '">' + todo.content + '</li>';
+        inputTodo.value = '';
+
+
+        // todos.forEach(function (todo) {
+        //   todoList.innerHTML += '<li id="' + todo.id + '">' + '<input type="checkbox" class="check-box">' + todo.content + '</li>';
+        //   inputTodo.value = '';
+      })
+    }
+
+    // Event function Add list data 
+    inputTodo.addEventListener('keyup', function(e) {
+      if (e.keyCode !== 13) return;
+
+      if (this.value) {
+        var filterArr = todos.map(function(todo) {
+          return todo.id;
+        });
+        // console.log(filterArr); // [1, 2, 3]
+
+        filterArr = Math.max.apply(null, filterArr);
+        // console.log(filterArr); //  3
+
+        var newForm = {
+          id: filterArr + 1,
+          content: this.value,
+          completed: false
+        };
+        todos = todos.concat(newForm);
+
+        idName(todos);
+        // todoList.innerHTML += '<li  id="' + newForm.id + '">' + this.value + '</li>';
+        inputTodo.value = ''; 
+      }
+
+    });
+
+    todoList.addEventListener('click', function(e) {
+
+      //   if (e.target.nodeName === 'LI') {
+      //     this.removeChild(e.target);
+      //   };
+
+      todos = todos.filter(function(todo) {
+        // ul 안의 li id 값(e.target.id)과 todos안에 있는 각 요소의 id의 값(todo.id)
+        return e.target.id * 1 !== todo.id
+      });
+
+      idName(todos);
+
+    });
+
+    window.addEventListener('load', function(e) {
+      idName(todos);
+    });
+  </script>
+</body>
+
+</html>
