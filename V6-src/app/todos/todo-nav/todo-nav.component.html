@@ -1,0 +1,6 @@
+<ul class="nav nav-xs nav-pills">
+  <li *ngFor="let navItem of navItems" 
+  [class.active]="navItem === selectedNavItem">
+    <a (click)="changeCurrenttNavItem.emit(navItem)">{{navItem}}</a>
+  </li>
+</ul>

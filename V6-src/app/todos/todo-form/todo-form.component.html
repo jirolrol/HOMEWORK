@@ -1,0 +1,7 @@
+<input 
+  class="form-control input-lg" 
+  placeholder="What needs to be done?" 
+  autofocus [(ngModel)]="content" 
+  (keyup.enter)="addTodo($event.target.value)">
+
+  <!-- (keyup.enter)="enterTodo.emit($event.target.value)"> -->
